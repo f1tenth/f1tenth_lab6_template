@@ -48,5 +48,7 @@ To visualize the list of waypoints you have, and to visualize the current waypoi
 - Compilation: **10** Points
 - Running slam_toolbox and producing a map: **30** Points
 - Running particle_filter: **20** Points
-- Implementing pure pursuit: **30** Points
-- Video: **10** Points
+- Implementing pure pursuit: **20** Points
+- 2x Videos:
+  - In-sim **10** Points
+  - On-Car **10** Points
