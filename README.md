@@ -1,4 +1,4 @@
-# Lab 6: SLAM and Pure Pursuit
+# Lab 5: SLAM and Pure Pursuit
 
 ## I. Learning Goals
 
