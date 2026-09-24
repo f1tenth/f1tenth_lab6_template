@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 This file contains the class definition for tree nodes and RRT
 Before you start, please read: https://arxiv.org/pdf/1105.1186.pdf
@@ -5,9 +6,11 @@ Before you start, please read: https://arxiv.org/pdf/1105.1186.pdf
 import numpy as np
 from numpy import linalg as LA
 import math
+import os
 
 import rclpy
 from rclpy.node import Node
+from ament_index_python.packages import get_package_share_directory
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import PointStamped
@@ -21,7 +24,8 @@ from nav_msgs.msg import OccupancyGrid
 
 # class def for tree nodes
 # It's up to you if you want to use this
-class Node(object):
+# (named TreeNode: `Node` is the ROS 2 node class imported above)
+class TreeNode(object):
     def __init__(self):
         self.x = None
         self.y = None
@@ -32,17 +36,23 @@ class Node(object):
 # class def for RRT
 class RRT(Node):
     def __init__(self):
+        super().__init__('rrt_node')
         # topics, not saved as attributes
         # TODO: grab topics from param file, you'll need to change the yaml file
-        pose_topic = "ego_racecar/odom"
+        pose_topic = "/ego_racecar/odom"   # nav_msgs/Odometry, the ground truth in the simulator
         scan_topic = "/scan"
 
-        # you could add your own parameters to the rrt_params.yaml file,
-        # and get them here as class attributes as shown above.
+        # declare your own parameters here (self.declare_parameter) and give
+        # them values in launch/levine_launch.py; the tuned values should also
+        # be the defaults, in case the autograder has to start the node without it.
+
+        # TODO: load your global path from the package's installed waypoints/ folder:
+        #       os.path.join(get_package_share_directory('lab7_pkg'), 'waypoints', <your csv>)
+        #       A path like /home/you/... only exists on your laptop.
 
         # TODO: create subscribers
         self.pose_sub_ = self.create_subscription(
-            PoseStamped,
+            Odometry,
             pose_topic,
             self.pose_callback,
             1)
@@ -73,11 +83,12 @@ class RRT(Node):
 
     def pose_callback(self, pose_msg):
         """
-        The pose callback when subscribed to particle filter's inferred pose
-        Here is where the main RRT loop happens
+        The pose callback: the simulator's ground truth pose (nav_msgs/Odometry)
+        Here is where the main RRT loop happens. On the car, subscribe to the
+        particle filter's pose instead.
 
         Args: 
-            pose_msg (PoseStamped): incoming message from subscribed topic
+            pose_msg (Odometry): incoming message from subscribed topic
         Returns:
 
         """
