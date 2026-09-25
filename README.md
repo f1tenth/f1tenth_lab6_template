@@ -122,6 +122,8 @@ The best scored `submission` push is counted as your team's final submission, an
 
 **The autograder finds your work by name.** Package `lab7_pkg`, launch file `levine_launch.py` (or, without it, an executable it can start with `ros2 run lab7_pkg <executable>`, the skeleton's `rrt_node`), taking its pose from `/ego_racecar/odom`, reading `/scan` and publishing `AckermannDriveStamped` on `/drive`. Otherwise, the autograder will not be able to grade your work and your submission may get the wrong grade.
 
+**Only the topics the lab needs.** Your nodes may read the simulator's localisation (`/ego_racecar/odom`, `/tf`), `/scan` and `/initialpose`, and publish on `/drive`, `/tf` and topics only your own nodes use (path and waypoint markers). The autograder watches the ROS graph while your code runs: a node that reads the lap counter or the collision flag, or publishes on a topic the simulator or the autograder listens to (`/initialpose`, which teleports the car, `/ego_racecar/odom`, the lap counter, ...) gets every line that ran your code scored 0.
+
 ## VII: Grading Rubric
 - Compilation: **30** Points (autograded)
 - Performance on straight path: **25** Points (autograded in simulation: the north hallway of `levine_obs` under both triangles, without touching anything; a run that ends early earns partial credit for the fraction covered)
