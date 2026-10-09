@@ -126,8 +126,8 @@ The best scored `submission` push is counted as your team's final submission, an
 
 ## VII: Grading Rubric
 - Compilation: **30** Points (autograded)
-- Performance on straight path: **25** Points (autograded in simulation: the north hallway of `levine_obs` under both triangles, without touching anything; a run that ends early earns partial credit for the fraction covered)
-- Performance on turn: **25** Points (autograded in simulation, the same way: the north-east corner of `levine_obs`)
+- Performance on straight path: **25** Points (autograded in simulation: the north hallway of `levine_obs` under both triangles, without touching anything; a run that ends early earns partial credit for the fraction covered; a clean run's time goes to the straight path leaderboard)
+- Performance on turn: **25** Points (autograded in simulation, the same way: the north-east corner of `levine_obs`; a clean run's time goes to the turn leaderboard)
 - Videos (TA-graded from the links in `SUBMISSION.md`):
   - **10** Points working in Simulation
   - **10** Points working on Car
