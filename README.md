@@ -71,12 +71,15 @@ The autograder grades your planner on **`levine_obs`**, the simulator's Levine m
 | --- | --- | --- |
 | Straight path | `8.08`, `8.67`, `3.1416` (the north hallway just out of the north-east corner, heading west) | 16 m along the hallway, under both triangles, 1.4 m before the L-shaped wall |
 | Turn | `9.96`, `2.8`, `1.5708` (the east hallway, heading north: lab 4's start) | 3 m after the north-east corner, before the first triangle |
+| Full lap | `9.96`, `2.8`, `1.5708` (the turn's start) | one whole lap past every obstacle: the triangles, the L-shaped wall (the way through is above its bar; below it is a dead end), the boxes of the south hallway, the ellipse and the box at the south-east corner |
 
-A run also ends at the first touch of a wall or an obstacle, or after 12 s without progress; a run that ends early earns partial credit for the fraction of its stretch covered.
+The full lap runs first, and the turn and the straight path are stretches of it: when your lap gets past the end of one of them without touching anything, that run gets its full points and its time from the lap, and is not run again. Only a stretch your lap does not get past is run on its own, from the start pose in the table.
+
+A run also ends at the first touch of a wall or an obstacle, or after 12 s without progress (the lap also after 180 s); a run that ends early earns partial credit for the fraction of its stretch, or of the lap, covered.
 
 Before the simulator the autograder runs a quick bench check, worth no points: it holds the car still in the middle of the south hallway, publishes the pose and a laser scan with a box in it 1.3 m ahead, and reports whether your planner steers around it (further right with the box on the left than with its mirror on the right, and to one side or the other with a 0.4 m box straight ahead). It tells you whether your planner reacts to what it sees before you watch it drive.
 
-**One launch file.** The autograder starts your code with `lab7_pkg/launch/levine_launch.py`, and nothing else, for the bench check and both runs:
+**One launch file.** The autograder starts your code with `lab7_pkg/launch/levine_launch.py`, and nothing else, for the bench check and every run:
 
 ```bash
 ros2 launch lab7_pkg levine_launch.py
@@ -97,7 +100,7 @@ gh student accept RoboRacer-Class ese-6150 lab-6-motion-planning
 
 Whoever runs it first creates the team's shared repository, `ese-6150-lab-6-motion-planning-group-<n>`; everyone else gets `Repository already exists` and the same URL. All of you push to that one repository, so **pull before you push**. One submission is the whole team's submission, and every member gets the same grade.
 
-- **Deliverable 1**: Commit your `lab7_pkg` package to your team's repository, waypoints included. Your committed code should run smoothly in simulation on `levine_obs`: down the north hallway under both triangles and round the north-east corner, without touching a wall or an obstacle.
+- **Deliverable 1**: Commit your `lab7_pkg` package to your team's repository, waypoints included. Your committed code should run smoothly in simulation on `levine_obs`: a full counter-clockwise lap past every obstacle, without touching a wall or an obstacle (the straight path under both triangles and the north-east corner are also graded on their own).
 - **Deliverable 2**: Submit links to two videos in **`SUBMISSION.md`** (YouTube unlisted, or Google Drive shared as **"Anyone with the link can view"**): your RRT running in the simulator with the tree and the chosen path visualized in RViz, and the real car running RRT in Levine hallway.
 
 ### Submitting
@@ -111,7 +114,7 @@ git tag submission
 git push origin submission          # this triggers the autograder
 ```
 
-The autograder builds your package, runs the bench check and drives your planner through the two runs in the simulator, then posts your score as a **Release** on your repo (check the Releases page or the commit's status check a few minutes after you tag). To resubmit, move the tag to a new commit:
+The autograder builds your package, runs the bench check and drives your planner round the full lap in the simulator (then through the straight path or the turn on their own, if the lap stopped before their end), then posts your score as a **Release** on your repo (check the Releases page or the commit's status check a few minutes after you tag). To resubmit, move the tag to a new commit:
 
 ```bash
 git tag -f submission
@@ -126,8 +129,9 @@ The best scored `submission` push is counted as your team's final submission, an
 
 ## VII: Grading Rubric
 - Compilation: **30** Points (autograded)
-- Performance on straight path: **25** Points (autograded in simulation: the north hallway of `levine_obs` under both triangles, without touching anything; a run that ends early earns partial credit for the fraction covered; a clean run's time goes to the straight path leaderboard)
-- Performance on turn: **25** Points (autograded in simulation, the same way: the north-east corner of `levine_obs`; a clean run's time goes to the turn leaderboard)
+- Performance on straight path: **20** Points (autograded in simulation: the north hallway of `levine_obs` under both triangles, without touching anything; full points when your full lap gets past it cleanly, otherwise a run of its own where ending early earns partial credit for the fraction covered; a clean run's time goes to the straight path leaderboard)
+- Performance on turn: **20** Points (autograded in simulation, the same way: the north-east corner of `levine_obs`; a clean run's time goes to the turn leaderboard)
+- Full lap of the obstacle map: **10** Points (autograded in simulation, the same way: one counter-clockwise lap of `levine_obs` past every obstacle; a clean lap's time goes to the full-lap leaderboard, the first board of the lab's tab)
 - Videos (TA-graded from the links in `SUBMISSION.md`):
   - **10** Points working in Simulation
   - **10** Points working on Car

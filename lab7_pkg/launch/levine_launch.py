@@ -1,4 +1,4 @@
-"""What the autograder runs on levine_obs (the straight path and the turn) and
+"""What the autograder runs on levine_obs (the straight path, the turn and the full lap) and
 for the obstacle checks:
 
     ros2 launch lab7_pkg levine_launch.py
